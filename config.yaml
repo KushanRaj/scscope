@@ -1,16 +1,16 @@
 epochs: 100
 model_args:
-  latent_layer_out_dim : 2
-  encoder_layers_dim : [64, 128]
-  decoder_layers_dim : [64, 128]
-  input_dim : 600
+  latent_layer_out_dim : 64
+  encoder_layers_dim : []
+  decoder_layers_dim : []
+  input_dim : 
 data_args: 
-  filepath : a.npy
+  filepath : 
 data_loader:
   batch_size : 16
   num_workers : 4
   shuffle : False
 optim_name : Adam
 optim_args : 
-  lr : 1.0e-3
+  lr : 1.0e-2
 output : output
