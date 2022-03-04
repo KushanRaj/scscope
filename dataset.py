@@ -20,15 +20,15 @@ class GeneExpression(Dataset):
 
         print(f'{filepath} loaded, Data Shape : {data.shape}\nAssuming {data.shape[0]} Cells/Patients and {data.shape[1]} Genes')
 
-        data = self.data
+        self.data = data
 
     def __len__(self):
 
         return self.data.shape[0]
 
-    def __iter__(self, id):
+    def __getitem__(self, id):
 
-        return torch.from_numpy(self.data[id])
+        return torch.from_numpy(self.data[id]).float()
 
 
 

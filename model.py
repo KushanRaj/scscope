@@ -4,7 +4,7 @@ import torch
 from torch import nn
 import torch.optim as optim
 import torch.nn.functional as F
-from utils import AutoEncoder, Linear, scTask
+from utils import AutoEncoder, Linear
 from typing import Any
 
 import numpy as np
@@ -14,12 +14,11 @@ class scScope(nn.Module):
     def __init__(
             self,
             input_dim,
-            batch_size,
-            num_inputs,
+            #batch_size,
+            #num_inputs,
             encoder_layers_dim: List,
             decoder_layers_dim: List,
             latent_layer_out_dim: int,
-            helper_class,
             t: int = 2,
             
             **kwargs
@@ -33,9 +32,9 @@ class scScope(nn.Module):
         self.autoencoder = AutoEncoder(input_dim, encoder_layers_dim, decoder_layers_dim, latent_layer_out_dim,
                                       activation='relu', weight_initializer='normal', weight_init_params={'std': 0.1},
                                       bias_initializer='zeros', batchnorm=False)
-        num_batch = num_inputs//batch_size
-        self.batch_effect_layer = nn.Linear(num_batch, self.input_dim, bias=False)
-        nn.init.zeros_(self.batch_effect_layer.weight)
+        #num_batch = num_inputs//batch_size
+        #self.batch_effect_layer = nn.Linear(num_batch, self.input_dim, bias=False)
+        #nn.init.zeros_(self.batch_effect_layer.weight)
 
         impute_layer1 = Linear(self.input_dim, 64, activation='relu',
                                          weight_init='normal', weight_init_params={'std': 0.1},
@@ -47,9 +46,7 @@ class scScope(nn.Module):
 
 
         self.imputation_model = nn.Sequential(impute_layer1, impute_layer2)
-        self.num_batch = num_batch
-        self.helper_class = helper_class
-        self.is_predict = False
+    
     
     def loss_fn(self, y_pred, input_d):
         
